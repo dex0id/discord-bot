@@ -60,13 +60,15 @@ export function commandHandler(req, res)
 
     const { name, options } = topLevelOptions[0];
 
+    console.log(name, options);
+
     switch(name){
         case 'rankings': return () => {
             console.log('rankings', options, resolved)
         }
         case 'send': return () => {
             console.log('send', options, resolved)
-            
+
         }
         case 'register': return async () =>{
             try {
