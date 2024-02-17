@@ -76,9 +76,9 @@ export async function commandHandler(req, res)
             try {
                 console.log('registering')
                 const account = await Account.get(user);
-                res.status(200).body(`${account.getUsername()} has been registered.`);
+                res.status(200).send(`${account.getUsername()} has been registered.`);
             } catch (err) {
-                res.status(500).body('Registration failed.');
+                res.status(500).send('Registration failed.');
             }
             break;
         default: return res.status(404);
