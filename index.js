@@ -30,7 +30,7 @@ app.get('/privacy-policy', (req, res) => {
  */
 app.post('/interactions', async function (req, res) {
   // Interaction type and data
-  const { type, data } = req.body;
+  const { type } = req.body;
 
   /**
    * Handle verification requests
@@ -43,7 +43,7 @@ app.post('/interactions', async function (req, res) {
    * Handle slash command requests
    * See https://discord.com/developers/docs/interactions/application-commands#slash-commands
    */
-  if (type === InteractionType.APPLICATION_COMMAND) commandHandler(req, res);
+  if (type === InteractionType.APPLICATION_COMMAND) return commandHandler(req, res);
 });
 
 app.listen(PORT, () => {

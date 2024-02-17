@@ -8,7 +8,7 @@ export function commandHandler(req, res)
     const { name } = data;
     const { user } = member;
 
-    console.log(name);
+    console.log(user, data);
 
     switch(name){
         case 'register': return async () =>{
@@ -20,7 +20,7 @@ export function commandHandler(req, res)
             }
             
         }
-
+        default: return res.status(404);
     }
 }
 
