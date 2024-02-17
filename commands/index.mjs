@@ -39,13 +39,13 @@ class Account {
             return new Account(users[id]);
         }
 
-        users[user.id] = Object.assign({}, account.data, {
+        const account = new Account(Object.assign({}, data, {
             created_at: Date.now(),
             updated_at: Date.now(),
-        });
+        }));
 
+        users[user.id] = account.data;
         await db.write();
-        const account = new Account(data);
 
         console.log(`creating user ${account.getUsername()}`)
         return account;
