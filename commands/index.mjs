@@ -1,20 +1,77 @@
-import { InteractionResponseType } from "discord-interactions";
-import { DiscordRequest, getRandomEmoji } from "../utils.mjs";
+import { DiscordRequest } from "../utils.mjs";
+import { db } from "../db.mjs";
+
+const AccountData = {
+    avatar: '617a0c092566efcc95b11e8987556119',
+    avatar_decoration_data: null,
+    discriminator: '0',
+    global_name: 'dex0id',
+    id: '267098502750928896',
+    public_flags: 0,
+    username: 'dex0id'
+};
+class Account {
+    data;
+
+    constructor(data)
+    {
+        this.data = data;
+    }
+
+    getId()
+    {
+        return this.data.id;
+    }
+
+    getUsername()
+    {
+        return this.data.username
+    }
+
+    static async get(data)
+    {
+        const { users } = db.data;
+        if (users.hasOwnProperty(id)) {
+            console.log(`loading user ${account.getUsername()}`)
+            return new Account(users[id]);
+        }
+
+        users[user.id] = Object.assign({}, account.data, {
+            created_at: Date.now(),
+            updated_at: Date.now(),
+        });
+
+        await db.write();
+        const account = new Account(data);
+
+        console.log(`creating user ${account.getUsername()}`)
+        return account;
+    }
+}
 
 export function commandHandler(req, res)
 {
     // Interaction type and data
     const { member, data } = req.body;
-    const { name } = data;
+    const { options: topLevelOptions, resolved } = data;
     const { user } = member;
 
     console.log(user, data);
 
+    const { name, options } = topLevelOptions[0];
+
     switch(name){
+        case 'rankings': return () => {
+            console.log('rankings', options, resolved)
+        }
+        case 'send': return () => {
+            console.log('send', options, resolved)
+            
+        }
         case 'register': return async () =>{
             try {
-                await registerUser(user);
-                res.status(200);
+                const account = await Account.get(user);
+                res.status(200).body(`${account.getUsername()} has been registered.`);
             } catch (err) {
                 res.status(500).body('Registration failed.');
             }
@@ -45,7 +102,7 @@ export async function createCommands()
                     { name: 'register', type: 1, description: 'register' },
 
                     { name: 'rankings', type: 1, description: 'Rankings', options: [
-                        {name: 'metric', type: 3, description: 'What metric to rank by?', required: true, choices: [
+                        {name: 'asset', type: 3, description: 'What asset to rank by?', required: true, choices: [
                             { name: 'Street Cred', value: 'street-cred' },
                         ]}
                     ]},

@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node --experimental-modules index.js",
+    "start": "nodemon -e js,mjs --watch commands --watch index.js index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -15,6 +15,10 @@
     "dotenv": "^16.4.4",
     "esm": "^3.2.25",
     "express": "^4.18.2",
+    "lowdb": "^7.0.1",
     "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
   }
 }
