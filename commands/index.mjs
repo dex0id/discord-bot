@@ -52,7 +52,7 @@ class Account {
     }
 }
 
-export function commandHandler(req, res)
+export async function commandHandler(req, res)
 {
     // Interaction type and data
     const { member, data } = req.body;
@@ -65,15 +65,14 @@ export function commandHandler(req, res)
 
     console.log(name, options);
 
-    switch(name){
-        case 'rankings': return () => {
+    switch(name) {
+        case 'rankings':
             console.log('rankings', options, resolved)
-        }
-        case 'send': return () => {
+            break;
+        case 'send':
             console.log('send', options, resolved)
-
-        }
-        case 'register': return async () =>{
+            break;
+        case 'register':
             try {
                 console.log('registering')
                 const account = await Account.get(user);
@@ -81,8 +80,7 @@ export function commandHandler(req, res)
             } catch (err) {
                 res.status(500).body('Registration failed.');
             }
-            
-        }
+            break;
         default: return res.status(404);
     }
 }
