@@ -45,9 +45,10 @@ class Account {
         }));
 
         users[user.id] = account.data;
-        await db.write();
-
+        
         console.log(`creating user ${account.getUsername()}`)
+        await db.write();
+        console.log(`created user ${account.getUsername()}`)
         return account;
     }
 }
