@@ -31,6 +31,9 @@ class Account {
     static async get(data)
     {
         const { users } = db.data;
+
+        console.log(users);
+
         if (users.hasOwnProperty(id)) {
             console.log(`loading user ${account.getUsername()}`)
             return new Account(users[id]);
@@ -72,6 +75,7 @@ export function commandHandler(req, res)
         }
         case 'register': return async () =>{
             try {
+                console.log('registering')
                 const account = await Account.get(user);
                 res.status(200).body(`${account.getUsername()} has been registered.`);
             } catch (err) {
