@@ -13,6 +13,18 @@ app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 app.get('/healthcheck', (req, res) => res.send('ok'));
 
+app.get('/verify-user', (req, res) => {
+    res.send('verified');
+})
+
+app.get('/terms-of-service', (req, res) => {
+  res.send('use at your own risk.');
+})
+
+app.get('/privacy-policy', (req, res) => {
+  res.send('I might save your discord info to reference later. But I don\'t know your real name or anything... Nancy.');
+})
+
 /**
  * Interactions endpoint URL where Discord will send HTTP requests
  */
