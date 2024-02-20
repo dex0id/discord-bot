@@ -1,57 +1,5 @@
+import { Account } from "../models/account.mjs";
 import { DiscordRequest } from "../utils.mjs";
-import { db } from "../db.mjs";
-
-const AccountData = {
-    avatar: '617a0c092566efcc95b11e8987556119',
-    avatar_decoration_data: null,
-    discriminator: '0',
-    global_name: 'dex0id',
-    id: '267098502750928896',
-    public_flags: 0,
-    username: 'dex0id'
-};
-class Account {
-    data;
-
-    constructor(data)
-    {
-        this.data = data;
-    }
-
-    getId()
-    {
-        return this.data.id;
-    }
-
-    getUsername()
-    {
-        return this.data.username
-    }
-
-    static async get(data)
-    {
-        const { users } = db.data;
-
-        console.log(users);
-
-        if (users.hasOwnProperty(id)) {
-            console.log(`loading user ${account.getUsername()}`)
-            return new Account(users[id]);
-        }
-
-        const account = new Account(Object.assign({}, data, {
-            created_at: Date.now(),
-            updated_at: Date.now(),
-        }));
-
-        users[user.id] = account.data;
-        
-        console.log(`creating user ${account.getUsername()}`)
-        await db.write();
-        console.log(`created user ${account.getUsername()}`)
-        return account;
-    }
-}
 
 export async function commandHandler(req, res)
 {
@@ -71,7 +19,8 @@ export async function commandHandler(req, res)
             console.log('rankings', options, resolved)
             break;
         case 'send':
-            console.log('send', options, resolved)
+            const account = Account.get(user);
+            account.send(otpions, resolved);
             break;
         case 'register':
             try {
@@ -114,7 +63,7 @@ export async function createCommands()
 
                     { name: 'send', type: 1, description: 'street cred', options: [
                         { name: 'asset', type: 3, description: "wat", required: true, choices: [
-                            { name: 'Street Cred', value: 'street-cred' },
+                            { name: 'Street Cred', value: 144853500 },
                         ]},
                         { name: 'to', type: 6, description: 'to', required: true },
                         { name: 'amount', type: 4, description: 'amount', required: true, }
