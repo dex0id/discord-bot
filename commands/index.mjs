@@ -13,19 +13,30 @@ export async function commandHandler(req, res)
 
     switch(name) {
         case 'rankings':
-            console.log('rankings', options, resolved)
+            const [{ name: optionName, value: optionValue }] = options;
             return res.send({
                 type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
-                    content: `Rankings isn't available yet.`
+                    content: `The rankings for ${optionName} ${optionValue} isn't available yet.`
                 }
             });
         case 'send':
+            const [{ value: assetId }, { value: sendToUserId }, { value: amountToSend }] = options;
             console.log('send', options, resolved)
+            if (!Account.has(sendToUserId)) {
+                return res.send({
+                    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                    data: {
+                        content: `This user hasn't registered yet.`
+                    }
+                });
+            }
+            
+            const account = await Account.get({ id: sendToUserId });
             return res.send({
                 type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
-                    content: `Send isn't available yet.`
+                    content: `You have sent ${account.getUsername()} ${amountToSend} ${assetId}.`
                 }
             });
 
