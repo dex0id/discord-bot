@@ -1,3 +1,4 @@
+import { InteractionResponseType } from "discord-interactions";
 import { Account } from "../models/account.mjs";
 import { DiscordRequest } from "../utils.mjs";
 
@@ -25,11 +26,21 @@ export async function commandHandler(req, res)
         case 'register':
             try {
                 if (Account.has(user.id)) {
-                    res.status(200).send(`${account.getUsername()} has already been registered.`);
+                    return res.send({
+                        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                        data: {
+                            content: `${account.getUsername()} has already been registered.`
+                        }
+                    });
                 } else {
                     console.log('registering')
                     const account = await Account.get(user);
-                    res.status(200).send(`${account.getUsername()} has been registered.`);
+                    return res.send({
+                        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                        data: {
+                            content: `${account.getUsername()} has been registered.`
+                        }
+                    });
                 }
             } catch (err) {
                 res.status(500).send('Registration failed.');
