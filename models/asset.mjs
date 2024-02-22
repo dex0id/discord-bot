@@ -22,20 +22,24 @@ export class Asset {
         return this.data.asset_name
     }
 
+    static has(id)
+    {
+        const { assets } = db.data;
+        return assets.hasOwnProperty(id);
+    }
+
     static async get(data)
     {
         const { assets } = db.data;
-        const { id, unit_name } = data;
+        const { id } = data;
 
-        const assetData = Object.values(assets).find((val) => val.unit_name === unit_name);
-
-        if (assetData) {
-            const asset = new Asset(assetData);
+        if (assets.hasOwnProperty(id)) {
+            const asset = new Asset(assets[id]);
             console.log(`loading asset ${asset.getUnitName()}`, asset)
             return asset;
         }
 
-        const algoAsset = await createAsset(data.unit_name, data.asset_name, data.asset_url, data.amount)
+        const algoAsset = await createAsset(data.asset_name, data.amount)
         console.log(algoAsset);
         const asset = new Asset(Object.assign({}, data, {
             id: algoAsset['asset-index'],
@@ -51,5 +55,11 @@ export class Asset {
         await db.write();
         console.log(`created asset ${asset.getAssetName()}`)
         return asset;
+    }
+
+    static async forEach(callback)
+    {
+        const { assets } = db.data;
+        return Object.values(assets).forEach(asset => callback(new Asset(asset)));
     }
 }

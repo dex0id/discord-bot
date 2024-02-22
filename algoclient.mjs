@@ -131,7 +131,7 @@ export async function getAssetInfo(asset)
     console.log(`Asset Params: ${assetInfo.params}`);
 }
 
-export async function createAsset(unitName, assetName, assetURL, amount, decimals = 0)
+export async function createAsset(assetName, amount, unitName = null, assetURL=null, decimals = 0)
 {
     const account = await Account.get({ id: 'master' })
     const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({
@@ -162,12 +162,12 @@ export async function createAsset(unitName, assetName, assetURL, amount, decimal
     // console.log(`Asset ID created: ${assetIndex}`);
 }
 
-export async function distributeAsset(asset)
+export async function distributeAsset(asset, amount)
 {
     const masterAccount = await Account.get({ id: 'master' });
     Account.forEach(async (account) => {
         if (account.getId() === masterAccount.getId()) return;
-        await assetSend(asset, masterAccount, account, 100)
+        await assetSend(asset, masterAccount, account, amount)
     });
 }
 

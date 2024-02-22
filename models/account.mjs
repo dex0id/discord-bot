@@ -49,10 +49,10 @@ export class Account {
         assetSend(asset, this, to, amount)
     }
 
-    static async has(id)
+    static has(id)
     {
         const { users } = db.data;
-        return !!users[id];
+        return users.hasOwnProperty(id);
     }
 
     static async get(data)
