@@ -52,7 +52,7 @@ export class Account {
     static async has(id)
     {
         const { users } = db.data;
-        return users.hasOwnProperty(id);
+        return !!users[id];
     }
 
     static async get(data)

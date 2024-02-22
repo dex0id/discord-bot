@@ -54,7 +54,6 @@ export async function commandHandler(req, res)
                         }
                     });
                 } else {
-                    console.log('registering')
                     const account = await Account.get(user);
                     return res.send({
                         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
