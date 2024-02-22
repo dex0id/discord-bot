@@ -26,6 +26,7 @@ export async function commandHandler(req, res)
         case 'register':
             try {
                 if (Account.has(user.id)) {
+                    const account = await Account.get(user);
                     return res.send({
                         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
                         data: {
@@ -78,7 +79,7 @@ export async function createCommands()
 
                     { name: 'send', type: 1, description: 'street cred', options: [
                         { name: 'asset', type: 3, description: "wat", required: true, choices: [
-                            { name: 'Street Cred', value: 144853500 },
+                            { name: 'Street Cred', value: '144853500' },
                         ]},
                         { name: 'to', type: 6, description: 'to', required: true },
                         { name: 'amount', type: 4, description: 'amount', required: true, }
