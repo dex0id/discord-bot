@@ -6,23 +6,32 @@ export async function commandHandler(req, res)
 {
     // Interaction type and data
     const { member, data } = req.body;
-    const { options: topLevelOptions, resolved } = data;
+    const { id: messageId, options: topLevelOptions, resolved } = data;
     const { user } = member;
 
-    console.log(user, data);
-
-    const { name, options } = topLevelOptions[0];
-
-    console.log(name, options);
+    const [{ name, options }] = topLevelOptions;
 
     switch(name) {
         case 'rankings':
             console.log('rankings', options, resolved)
-            break;
+            return res.send({
+                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                data: {
+                    content: `Rankings isn't available yet.`
+                }
+            });
         case 'send':
-            const account = Account.get(user);
-            account.send(otpions, resolved);
-            break;
+            console.log('send', options, resolved)
+            return res.send({
+                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                data: {
+                    content: `Send isn't available yet.`
+                }
+            });
+
+            // const account = Account.get(user);
+            // account.send(otpions, resolved);
+            // break;
         case 'register':
             try {
                 if (Account.has(user.id)) {
