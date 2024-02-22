@@ -180,6 +180,15 @@ export async function gatherAsset(asset)
     });
 }
 
+export async function fundAccounts(amount)
+{
+    const masterAccount = await Account.get({ id: 'master' });
+    Account.forEach(async (account) => {
+        if (account.getId() === masterAccount.getId()) return;
+        fundAccount(account, amount);
+    })
+}
+
 export async function clawbackAsset(asset, toAccount, fromAccount)
 {
     try {

@@ -24,9 +24,13 @@ export async function commandHandler(req, res)
             break;
         case 'register':
             try {
-                console.log('registering')
-                const account = await Account.get(user);
-                res.status(200).send(`${account.getUsername()} has been registered.`);
+                if (Account.has(user.id)) {
+                    res.status(200).send(`${account.getUsername()} has already been registered.`);
+                } else {
+                    console.log('registering')
+                    const account = await Account.get(user);
+                    res.status(200).send(`${account.getUsername()} has been registered.`);
+                }
             } catch (err) {
                 res.status(500).send('Registration failed.');
             }

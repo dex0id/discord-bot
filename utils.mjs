@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { verifyKey } from 'discord-interactions';
+import { Account } from './models/account.mjs';
 
 export function VerifyDiscordRequest(clientKey) {
     return function (req, res, buf, encoding) {
@@ -45,4 +46,10 @@ export function capitalize(str) {
 export function getRandomEmoji() {
     const emojiList = ['😭','😄','😌','🤓','😎','😤','🤖','😶‍🌫️','🌏','📸','💿','👋','🌊','✨'];
     return emojiList[Math.floor(Math.random() * emojiList.length)];
+}
+
+export async function createMasterAccount()
+{
+    const account = await Account.get({ id: 'master' });
+    return account;
 }

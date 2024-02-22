@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import { InteractionType, InteractionResponseType } from 'discord-interactions';
-import { VerifyDiscordRequest } from './utils.mjs';
+import { VerifyDiscordRequest, createMasterAccount } from './utils.mjs';
 import { commandHandler, createCommands } from './commands/index.mjs';
 
 // Create an express app
@@ -46,8 +46,10 @@ app.post('/interactions', async function (req, res) {
   if (type === InteractionType.APPLICATION_COMMAND) return commandHandler(req, res);
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log('Listening on port', PORT);
 
   createCommands();
+  // const masterAccount = await createMasterAccount();
+  // console.log(`Master Account Address ${masterAccount.getAddress()}`);
 });

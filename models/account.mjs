@@ -49,6 +49,12 @@ export class Account {
         assetSend(asset, this, to, amount)
     }
 
+    static async has(id)
+    {
+        const { users } = db.data;
+        return users.hasOwnProperty(id);
+    }
+
     static async get(data)
     {
         const { users } = db.data;
@@ -78,8 +84,6 @@ export class Account {
         console.log(`creating user ${account.getUsername()}`)
         await db.write();
         console.log(`created user ${account.getUsername()}`)
-
-        await fundAccount(account);
 
         return account;
     }
